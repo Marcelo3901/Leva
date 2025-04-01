@@ -63,22 +63,3 @@ st.write(f"Billones de células necesarias: {b_celulas:.2f} B Células")
 st.write(f"Volumen de levadura necesario: {volumen_levadura:.2f} L")
 st.write(f"Peso estimado de levadura (kg): {peso_levadura:.2f} kg")
 
-# Ejemplo de verificación de cálculo
-st.subheader("Ejemplo de Cálculo")
-# Parámetros del ejemplo:
-volumen_litros_ejemplo = 100  # Volumen de producción (en litros)
-conteo_neubauer_ejemplo = 1e6  # Conteo de células en la cámara de Neubauer (1 millón de células/mL)
-densidad_P_ejemplo = 1046  # Densidad en °P de la cerveza (ejemplo: Golden Ale con 1046 °P)
-
-# Cálculo para el ejemplo
-pitch_rate_ejemplo = 1.5 * densidad_P_ejemplo if densidad_P_ejemplo <= 1060 else 2 * densidad_P_ejemplo
-b_celulas_ejemplo = (pitch_rate_ejemplo * volumen_litros_ejemplo) / 1000
-volumen_levadura_ejemplo = b_celulas_ejemplo / (conteo_neubauer_ejemplo / 1e6)
-peso_levadura_ejemplo = volumen_levadura_ejemplo * 0.6  # Peso estimado de levadura (en kg)
-
-# Mostrar el cálculo de ejemplo
-st.write(f"Para un volumen de producción de {volumen_litros_ejemplo} L,")
-st.write(f"con un conteo de {conteo_neubauer_ejemplo} M Células/mL y una densidad de {densidad_P_ejemplo} °P:")
-st.write(f"Billones de células necesarias: {b_celulas_ejemplo:.2f} B Células")
-st.write(f"Volumen de levadura necesario: {volumen_levadura_ejemplo:.2f} L")
-st.write(f"Peso estimado de levadura: {peso_levadura_ejemplo:.2f} kg")
