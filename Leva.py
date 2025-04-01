@@ -1,45 +1,52 @@
 import streamlit as st
 from PIL import Image
+import base64
+
+# Función para convertir la imagen a base64 (para usarla en Streamlit)
+def image_to_base64(image_path):
+    with open(image_path, "rb") as img_file:
+        img_base64 = base64.b64encode(img_file.read()).decode()
+    return img_base64
 
 # Cargar la imagen de fondo
-image = Image.open('background.jpg')
+background_image = image_to_base64("background.jpg")
 
 # Personalización de los estilos CSS
 st.markdown(
-    """
+    f"""
     <style>
-        body {
-            background-image: url('background.jpg');
+        body {{
+            background-image: url('data:image/jpeg;base64,{background_image}');
             background-size: cover;
             background-position: center;
             color: white;
             font-family: 'Arial', sans-serif;
-        }
-        .css-1y4h6k4 {
+        }}
+        .css-1y4h6k4 {{
             background-color: rgba(0, 0, 0, 0.5);
-        }
-        .css-1a4ffcx {
+        }}
+        .css-1a4ffcx {{
             background-color: rgba(0, 0, 0, 0.6);
             border-radius: 8px;
-        }
-        h1 {
+        }}
+        h1 {{
             color: #ffcc00;
-        }
-        .stButton>button {
+        }}
+        .stButton>button {{
             background-color: #ff6600;
             color: white;
             border-radius: 8px;
-        }
-        .stTextInput>div>input {
+        }}
+        .stTextInput>div>input {{
             background-color: #2c3e50;
             color: white;
             border-radius: 4px;
-        }
-        .stSelectbox>div>div>input {
+        }}
+        .stSelectbox>div>div>input {{
             background-color: #2c3e50;
             color: white;
             border-radius: 4px;
-        }
+        }}
     </style>
     """, unsafe_allow_html=True)
 
