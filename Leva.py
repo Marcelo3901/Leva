@@ -57,9 +57,6 @@ pitch_rates = {
     "Lager > 1060": 2.0
 }
 
-# Selección de tipo de levadura (recuperada o propagada)
-levadura_tipo = st.selectbox("Selecciona el tipo de levadura:", ["Recuperada", "Propagada"])
-
 # Ingreso del conteo de células en la cámara de Neubauer (en millones de células/mL)
 conteo_neubauer = st.number_input("Ingresa el conteo de células en la cámara de Neubauer (en M Células/mL):", min_value=0.0, step=0.1)
 
@@ -84,21 +81,25 @@ if grados_plato > 1060:
 else:
     pitch_rate_selected = pitch_rates["Ale"]
 
-# Cálculo del volumen de levadura necesario
-volumen_levadura = calcular_volumen_levadura(conteo_neubauer, pitch_rate_selected, volumen_lote)
-
-# Cálculo del peso de levadura necesario
-if densidad > 0:
-    peso_levadura = calcular_peso_levadura(volumen_levadura, densidad)
+# Verificación de conteo de células antes de proceder
+if conteo_neubauer == 0:
+    st.error("El conteo de células no puede ser cero. Por favor, ingresa un valor válido.")
 else:
-    peso_levadura = 0
+    # Cálculo del volumen de levadura necesario
+    volumen_levadura = calcular_volumen_levadura(conteo_neubauer, pitch_rate_selected, volumen_lote)
 
-# Mostrar los resultados
-if volumen_levadura > 0:
-    st.write(f"Estilo de cerveza seleccionado: {estilo}")
-    st.write(f"Grados Plato de la cerveza: {grados_plato}")
-    st.write(f"Pitch Rate seleccionado: {pitch_rate_selected} millones de células/mL °P")
-    st.write(f"Volumen de levadura necesario: {volumen_levadura:.4f} L")
-    st.write(f"Peso estimado de levadura necesario: {peso_levadura:.4f} kg")
-else:
-    st.warning("Por favor, asegúrate de ingresar un conteo de células válido mayor que cero.")
+    # Cálculo del peso de levadura necesario
+    if densidad > 0:
+        peso_levadura = calcular_peso_levadura(volumen_levadura, densidad)
+    else:
+        peso_levadura = 0
+
+    # Mostrar los resultados
+    if volumen_levadura > 0:
+        st.write(f"Estilo de cerveza seleccionado: {estilo}")
+        st.write(f"Grados Plato de la cerveza: {grados_plato}")
+        st.write(f"Pitch Rate seleccionado: {pitch_rate_selected} millones de células/mL °P")
+        st.write(f"Volumen de levadura necesario: {volumen_levadura:.4f} L")
+        st.write(f"Peso estimado de levadura necesario: {peso_levadura:.4f} kg")
+    else:
+        st.warning("Por favor, asegúrate de ingresar un conteo de células válido mayor que cero.")
