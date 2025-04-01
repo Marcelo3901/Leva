@@ -31,8 +31,9 @@ if estilo_Seleccionado == "Otro estilo":
 else:
     densidad_P = estilos[estilo_Seleccionado]  # Usar la densidad predefinida del estilo seleccionado
 
-# Ingreso del conteo de células vivas en la cámara de Neubauer (células por mL)
-conteo_neubauer = st.number_input("Ingresa el conteo de células vivas en la cámara de Neubauer (células/mL):", min_value=0.0, step=1.0)
+# Ingreso del conteo de células vivas en la cámara de Neubauer (células/mL), en millones de células
+conteo_neubauer = st.number_input("Ingresa el conteo de células vivas en la cámara de Neubauer (M Células):", min_value=0.0, step=0.1)
+conteo_neubauer *= 1e6  # Convertir a células por mL (1 M Células = 1e6 células)
 
 # Ingreso del volumen de producción en litros
 volumen_litros = st.number_input("Ingresa el volumen de cerveza a producir (L):", min_value=0.0, step=0.1)
@@ -77,7 +78,7 @@ peso_levadura_ejemplo = volumen_levadura_ejemplo * 0.6  # Peso estimado de levad
 
 # Mostrar el cálculo de ejemplo
 st.write(f"Para un volumen de producción de {volumen_litros_ejemplo} L,")
-st.write(f"con un conteo de {conteo_neubauer_ejemplo} células/mL y una densidad de {densidad_P_ejemplo} °P:")
+st.write(f"con un conteo de {conteo_neubauer_ejemplo} M Células/mL y una densidad de {densidad_P_ejemplo} °P:")
 st.write(f"Billones de células necesarias: {b_celulas_ejemplo:.2f} B Células")
 st.write(f"Volumen de levadura necesario: {volumen_levadura_ejemplo:.2f} L")
 st.write(f"Peso estimado de levadura: {peso_levadura_ejemplo:.2f} kg")
