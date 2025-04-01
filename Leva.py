@@ -17,7 +17,7 @@ if os.path.exists("background.jpg"):
             color: #fff3aa;
         }}
         .stApp {{
-            background-image: url("data:image/jpeg;base64,{encoded}");
+            background-image: url('data:image/jpeg;base64,{encoded}');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -47,44 +47,6 @@ if os.path.exists("background.jpg"):
     )
 else:
     st.warning("No se encontró la imagen de fondo. Por favor, asegúrate de que el archivo 'background.jpg' esté en la carpeta correcta.")
-# Personalización de los estilos CSS
-st.markdown(
-    f"""
-    <style>
-        body {{
-            background-image: url('data:image/jpeg;base64,{background_image}');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            font-family: 'Arial', sans-serif;
-        }}
-        .css-1y4h6k4 {{
-            background-color: rgba(0, 0, 0, 0.5);
-        }}
-        .css-1a4ffcx {{
-            background-color: rgba(0, 0, 0, 0.6);
-            border-radius: 8px;
-        }}
-        h1 {{
-            color: #ffcc00;
-        }}
-        .stButton>button {{
-            background-color: #ff6600;
-            color: white;
-            border-radius: 8px;
-        }}
-        .stTextInput>div>input {{
-            background-color: #2c3e50;
-            color: white;
-            border-radius: 4px;
-        }}
-        .stSelectbox>div>div>input {{
-            background-color: #2c3e50;
-            color: white;
-            border-radius: 4px;
-        }}
-    </style>
-    """, unsafe_allow_html=True)
 
 # Título de la aplicación con estilo
 st.title("Cálculo de Levadura para Inoculación de Lote de Cerveza")
