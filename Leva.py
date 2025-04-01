@@ -1,4 +1,4 @@
-iimport os
+import os
 import base64
 import streamlit as st
 
@@ -47,8 +47,6 @@ if os.path.exists("background.jpg"):
     )
 else:
     st.warning("No se encontró la imagen de fondo. Por favor, asegúrate de que el archivo 'background.jpg' esté en la carpeta correcta.")
-
-
 # Personalización de los estilos CSS
 st.markdown(
     f"""
