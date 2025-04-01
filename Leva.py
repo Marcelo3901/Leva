@@ -2,6 +2,35 @@ import os
 import base64
 import streamlit as st
 
+# Función para calcular el volumen de levadura necesario
+def calcular_volumen_levadura(conteo_neubauer, pitch_rate, volumen_lote):
+    """
+    Calcula el volumen de levadura necesario en litros, basado en el conteo de células, el pitch rate y el volumen del lote.
+    """
+    # Verifica si los valores no son cero o nulos
+    if conteo_neubauer <= 0 or pitch_rate <= 0 or volumen_lote <= 0:
+        st.error("Los valores de conteo de células, pitch rate o volumen de lote no pueden ser cero o negativos.")
+        return None
+    
+    # Calcula billones de células (pitch_rate * volumen_lote)
+    billones_celulas = pitch_rate * volumen_lote
+
+    # Calcula el volumen de levadura necesario (en litros)
+    volumen_levadura = billones_celulas / conteo_neubauer  # Volumen necesario en litros
+    return volumen_levadura
+
+# Función para calcular el peso de levadura necesario
+def calcular_peso_levadura(volumen_levadura, densidad):
+    """
+    Calcula el peso de levadura necesario en kilogramos, dado el volumen y la densidad de la levadura.
+    """
+    if volumen_levadura <= 0 or densidad <= 0:
+        return 0  # Si el volumen o densidad son inválidos, retorna 0
+    
+    # El peso se calcula multiplicando el volumen por la densidad (en g/ml) y luego convirtiendo a kilogramos
+    peso_levadura = volumen_levadura * 1000 * densidad  # 1 L = 1000 mL
+    return peso_levadura / 1000  # Convertir gramos a kilogramos
+
 # Verifica si el archivo de imagen existe
 if os.path.exists("background.jpg"):
     with open("background.jpg", "rb") as img:
