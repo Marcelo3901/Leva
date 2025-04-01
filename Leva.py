@@ -2,12 +2,17 @@ import streamlit as st
 
 # Función para calcular el volumen de levadura necesario
 def calcular_volumen_levadura(conteo_neubauer, pitch_rate, volumen_lote):
+    if conteo_neubauer == 0:
+        st.error("El conteo de células no puede ser cero. Por favor, ingresa un valor válido.")
+        return 0  # Retorna 0 si el conteo es 0 para evitar la división por cero.
     billones_celulas = pitch_rate * volumen_lote / 1000  # Billones de células necesarias
     volumen_levadura = billones_celulas / conteo_neubauer  # Volumen necesario en litros
     return volumen_levadura
 
 # Función para calcular el peso de la levadura a partir del volumen y la densidad
 def calcular_peso_levadura(volumen_levadura, densidad):
+    if volumen_levadura == 0:
+        return 0  # Si el volumen de levadura es 0, retornamos 0 como peso
     # El volumen_levadura está en litros, convertir a mililitros (1L = 1000mL)
     volumen_levadura_ml = volumen_levadura * 1000
     # Calcular el peso en gramos: densidad (g/mL) * volumen (mL)
@@ -89,8 +94,11 @@ else:
     peso_levadura = 0
 
 # Mostrar los resultados
-st.write(f"Estilo de cerveza seleccionado: {estilo}")
-st.write(f"Grados Plato de la cerveza: {grados_plato}")
-st.write(f"Pitch Rate seleccionado: {pitch_rate_selected} millones de células/mL °P")
-st.write(f"Volumen de levadura necesario: {volumen_levadura:.4f} L")
-st.write(f"Peso estimado de levadura necesario: {peso_levadura:.4f} kg")
+if volumen_levadura > 0:
+    st.write(f"Estilo de cerveza seleccionado: {estilo}")
+    st.write(f"Grados Plato de la cerveza: {grados_plato}")
+    st.write(f"Pitch Rate seleccionado: {pitch_rate_selected} millones de células/mL °P")
+    st.write(f"Volumen de levadura necesario: {volumen_levadura:.4f} L")
+    st.write(f"Peso estimado de levadura necesario: {peso_levadura:.4f} kg")
+else:
+    st.warning("Por favor, asegúrate de ingresar un conteo de células válido mayor que cero.")
