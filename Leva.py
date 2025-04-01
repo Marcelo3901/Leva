@@ -90,7 +90,7 @@ pitch_rates = {
 }
 
 # Ingreso del conteo de células en la cámara de Neubauer (en millones de células/mL)
-conteo_neubauer = st.number_input("Ingresa el conteo de células en la cámara de Neubauer (en M Células/mL):", min_value=0.0, step=0.1)
+conteo_neubauer = st.number_input("Ingresa el conteo de células en la cámara de Neubauer (en M Células/mL 1e6):", min_value=0.0, step=0.1)
 
 # Ingreso del volumen de lote de cerveza (en litros)
 volumen_lote = st.number_input("Ingresa el volumen de lote (en litros):", min_value=1.0, step=0.1)
