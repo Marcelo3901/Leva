@@ -123,7 +123,7 @@ conteo_neubauer = st.number_input("Ingresa el conteo de células en la cámara d
 volumen_lote = st.number_input("Ingresa el volumen de lote (en litros):", min_value=1.0, step=0.1)
 
 # Densidad experimental a través del peso de 200 mL de muestra
-peso_200ml = st.number_input("Pesa 200 mL de muestra de levadura en gramos y entra el valor aquí:", min_value=0.0, step=0.1)
+peso_200ml = st.number_input("Pesa 200 mL de muestra de levadura en gramos e ingresa el valor aquí:", min_value=0.0, step=0.1)
 
 # Cálculo de la densidad
 if peso_200ml > 0:
