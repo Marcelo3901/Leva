@@ -1,15 +1,53 @@
-import streamlit as st
-from PIL import Image
+iimport os
 import base64
+import streamlit as st
 
-# Función para convertir la imagen a base64 (para usarla en Streamlit)
-def image_to_base64(image_path):
-    with open(image_path, "rb") as img_file:
-        img_base64 = base64.b64encode(img_file.read()).decode()
-    return img_base64
+# Verifica si el archivo de imagen existe
+if os.path.exists("background.jpg"):
+    with open("background.jpg", "rb") as img:
+        encoded = base64.b64encode(img.read()).decode()  # Codificación de la imagen en base64
 
-# Cargar la imagen de fondo
-background_image = image_to_base64("background.jpg")
+    # Establecer los estilos y la imagen de fondo
+    st.markdown(
+        f"""
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+        html, body, [class*="st"] {{
+            font-family: 'Roboto', sans-serif;
+            color: #fff3aa;
+        }}
+        .stApp {{
+            background-image: url("data:image/jpeg;base64,{encoded}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }}
+        .stTextInput > div > div > input,
+        .stSelectbox > div > div,
+        .stTextArea > div > textarea {{
+            background-color: #ffffff10 !important;
+            color: #fff3aa !important;
+            border-radius: 10px;
+        }}
+        .stButton > button {{
+            background-color: #55dcad !important;
+            color: #fff3aa !important;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+        }}
+        .stDataFrame, .stTable {{
+            background-color: rgba(0,0,0,0.6);
+            border-radius: 10px;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+else:
+    st.warning("No se encontró la imagen de fondo. Por favor, asegúrate de que el archivo 'background.jpg' esté en la carpeta correcta.")
+
 
 # Personalización de los estilos CSS
 st.markdown(
