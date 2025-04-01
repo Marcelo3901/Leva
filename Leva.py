@@ -1,12 +1,35 @@
 import streamlit as st
 
-# Título de la aplicación
-st.title("Calculadora de Levadura para Cervecería")
+# Función para calcular el volumen de levadura necesario
+def calcular_volumen_levadura(conteo_neubauer, pitch_rate, volumen_lote):
+    billones_celulas = pitch_rate * volumen_lote / 1000  # Billones de células necesarias
+    volumen_levadura = billones_celulas / conteo_neubauer  # Volumen necesario en litros
+    return volumen_levadura
 
-# Definir los estilos de cerveza con sus respectivos grados Plato
-estilos = {
+# Función para calcular el peso de la levadura a partir del volumen y la densidad
+def calcular_peso_levadura(volumen_levadura, densidad):
+    # El volumen_levadura está en litros, convertir a mililitros (1L = 1000mL)
+    volumen_levadura_ml = volumen_levadura * 1000
+    # Calcular el peso en gramos: densidad (g/mL) * volumen (mL)
+    peso_levadura_g = densidad * volumen_levadura_ml
+    # Convertir gramos a kilogramos
+    peso_levadura_kg = peso_levadura_g / 1000
+    return peso_levadura_kg
+
+# Título de la aplicación
+st.title("Cálculo de Levadura para Inoculación de Lote de Cerveza")
+
+# Selección de estilo de cerveza
+estilo = st.selectbox("Selecciona el estilo de cerveza:", ["Golden Ale", "Blonde Ale Maracuyá", "Trigo", 
+                                                         "Vienna Lager", "Session IPA", "Amber Ale", 
+                                                         "Brown Ale Café", "Sweet Stout", "IPA", 
+                                                         "Barley Wine", "Catharina Sour", "Cold IPA", 
+                                                         "Imperial IPA", "Gose", "Imperial Stout"])
+
+# Densidad de la cerveza en grados Plato para cada estilo
+densidades = {
     "Golden Ale": 1046,
-    "Blonde Ale Maracuya": 1046,
+    "Blonde Ale Maracuyá": 1046,
     "Trigo": 1049,
     "Vienna Lager": 1049,
     "Session IPA": 1045,
@@ -22,44 +45,52 @@ estilos = {
     "Imperial Stout": 1123
 }
 
-# Selección del estilo de cerveza
-estilo_Seleccionado = st.selectbox("Selecciona el estilo de cerveza:", list(estilos.keys()) + ["Otro estilo"])
+# Pitch rates
+pitch_rates = {
+    "Ale": 0.75, 
+    "Lager": 1.5, 
+    "Lager > 1060": 2.0
+}
 
-# Si el usuario elige "Otro estilo", permitir ingresar el grado Plato
-if estilo_Seleccionado == "Otro estilo":
-    densidad_P = st.number_input("Ingresa la densidad en °P de la cerveza (Grados Plato):", min_value=0.0, step=0.1)
+# Selección de tipo de levadura (recuperada o propagada)
+levadura_tipo = st.selectbox("Selecciona el tipo de levadura:", ["Recuperada", "Propagada"])
+
+# Ingreso del conteo de células en la cámara de Neubauer (en millones de células/mL)
+conteo_neubauer = st.number_input("Ingresa el conteo de células en la cámara de Neubauer (en M Células/mL):", min_value=0.0, step=0.1)
+
+# Ingreso del volumen de lote de cerveza (en litros)
+volumen_lote = st.number_input("Ingresa el volumen de lote (en litros):", min_value=1.0, step=0.1)
+
+# Densidad experimental a través del peso de 200 mL de muestra
+peso_200ml = st.number_input("Pesa 200 mL de muestra de levadura en gramos y entra el valor aquí:", min_value=0.0, step=0.1)
+
+# Cálculo de la densidad
+if peso_200ml > 0:
+    densidad = peso_200ml / 200  # Densidad en g/mL
 else:
-    densidad_P = estilos[estilo_Seleccionado]  # Usar la densidad predefinida del estilo seleccionado
+    densidad = 0  # Si no se ha ingresado el peso, se muestra como 0
 
-# Ingreso del conteo de células vivas en la cámara de Neubauer (células/mL), en millones de células
-conteo_neubauer = st.number_input("Ingresa el conteo de células vivas en la cámara de Neubauer (M Células):", min_value=0.0, step=0.1)
-conteo_neubauer *= 1e6  # Convertir a células por mL (1 M Células = 1e6 células)
+# Estilo de cerveza seleccionado
+grados_plato = densidades[estilo]
 
-# Ingreso del volumen de producción en litros
-volumen_litros = st.number_input("Ingresa el volumen de cerveza a producir (L):", min_value=0.0, step=0.1)
-
-# Definir el pitch rate según el tipo de cerveza (según grados Plato)
-if densidad_P > 1060:
-    # Pitch rate para cervezas con densidad mayor a 1060 (Lager con alta densidad o Ale con alta densidad)
-    pitch_rate = 2 * densidad_P  # Para Lager o Ale con alta densidad
+# Determinación del pitch rate según el tipo de cerveza
+if grados_plato > 1060:
+    pitch_rate_selected = pitch_rates["Lager > 1060"]
 else:
-    # Pitch rate para cervezas con densidad baja (Ale normal o Lager normal)
-    pitch_rate = 1.5 * densidad_P  # Para cervezas normales
+    pitch_rate_selected = pitch_rates["Ale"]
 
-# Calcular las células necesarias (en billones)
-m_celulas_ml = pitch_rate  # Millones de células por mL (pitch rate)
-b_celulas = (m_celulas_ml * volumen_litros) / 1000  # Billones de células necesarias
+# Cálculo del volumen de levadura necesario
+volumen_levadura = calcular_volumen_levadura(conteo_neubauer, pitch_rate_selected, volumen_lote)
 
-# Cálculo de la cantidad de levadura necesaria (en litros)
-# Utilizando el conteo de células para determinar el volumen necesario
-volumen_levadura = b_celulas / (conteo_neubauer / 1e6)  # El conteo de células está en células/mL
-
-# Calcular el peso de la levadura necesario, suponiendo que 150 mL pesan 90 g para levadura recuperada
-peso_levadura = volumen_levadura * 0.6  # Se usa 0.6 porque 150 mL pesan 90g (90g/150mL = 0.6 g/mL)
+# Cálculo del peso de levadura necesario
+if densidad > 0:
+    peso_levadura = calcular_peso_levadura(volumen_levadura, densidad)
+else:
+    peso_levadura = 0
 
 # Mostrar los resultados
-st.subheader("Resultados")
-st.write(f"Billones de células necesarias: {b_celulas:.2f} B Células")
-st.write(f"Volumen de levadura necesario: {volumen_levadura:.2f} L")
-st.write(f"Peso estimado de levadura (kg): {peso_levadura:.2f} kg")
-
+st.write(f"Estilo de cerveza seleccionado: {estilo}")
+st.write(f"Grados Plato de la cerveza: {grados_plato}")
+st.write(f"Pitch Rate seleccionado: {pitch_rate_selected} millones de células/mL °P")
+st.write(f"Volumen de levadura necesario: {volumen_levadura:.4f} L")
+st.write(f"Peso estimado de levadura necesario: {peso_levadura:.4f} kg")
