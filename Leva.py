@@ -3,11 +3,36 @@ import streamlit as st
 # Título de la aplicación
 st.title("Calculadora de Levadura para Cervecería")
 
+# Definir los estilos de cerveza con sus respectivos grados Plato
+estilos = {
+    "Golden Ale": 1046,
+    "Blonde Ale Maracuya": 1046,
+    "Trigo": 1049,
+    "Vienna Lager": 1049,
+    "Session IPA": 1045,
+    "Amber Ale": 1050,
+    "Brown Ale Café": 1055,
+    "Sweet Stout": 1057,
+    "IPA": 1059,
+    "Barley Wine": 1108,
+    "Catharina Sour": 1045,
+    "Cold IPA": 1054,
+    "Imperial IPA": 1094,
+    "Gose": 1045,
+    "Imperial Stout": 1123
+}
+
+# Selección del estilo de cerveza
+estilo_Seleccionado = st.selectbox("Selecciona el estilo de cerveza:", list(estilos.keys()) + ["Otro estilo"])
+
+# Si el usuario elige "Otro estilo", permitir ingresar el grado Plato
+if estilo_Seleccionado == "Otro estilo":
+    densidad_P = st.number_input("Ingresa la densidad en °P de la cerveza (Grados Plato):", min_value=0.0, step=0.1)
+else:
+    densidad_P = estilos[estilo_Seleccionado]  # Usar la densidad predefinida del estilo seleccionado
+
 # Ingreso del conteo de células vivas en la cámara de Neubauer (células por mL)
 conteo_neubauer = st.number_input("Ingresa el conteo de células vivas en la cámara de Neubauer (células/mL):", min_value=0.0, step=1.0)
-
-# Ingreso de la densidad en °P para calcular el pitch rate
-densidad_P = st.number_input("Ingresa la densidad en °P de la cerveza (Grados Plato):", min_value=0.0, step=0.1)
 
 # Ingreso del volumen de producción en litros
 volumen_litros = st.number_input("Ingresa el volumen de cerveza a producir (L):", min_value=0.0, step=0.1)
