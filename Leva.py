@@ -1,28 +1,53 @@
 import streamlit as st
+from PIL import Image
 
-# Función para calcular el volumen de levadura necesario
-def calcular_volumen_levadura(conteo_neubauer, pitch_rate, volumen_lote):
-    if conteo_neubauer == 0:
-        st.error("El conteo de células no puede ser cero. Por favor, ingresa un valor válido.")
-        return 0  # Retorna 0 si el conteo es 0 para evitar la división por cero.
-    billones_celulas = pitch_rate * volumen_lote / 1000  # Billones de células necesarias
-    volumen_levadura = billones_celulas / conteo_neubauer  # Volumen necesario en litros
-    return volumen_levadura
+# Cargar la imagen de fondo
+image = Image.open('background.jpg')
 
-# Función para calcular el peso de la levadura a partir del volumen y la densidad
-def calcular_peso_levadura(volumen_levadura, densidad):
-    if volumen_levadura == 0:
-        return 0  # Si el volumen de levadura es 0, retornamos 0 como peso
-    # El volumen_levadura está en litros, convertir a mililitros (1L = 1000mL)
-    volumen_levadura_ml = volumen_levadura * 1000
-    # Calcular el peso en gramos: densidad (g/mL) * volumen (mL)
-    peso_levadura_g = densidad * volumen_levadura_ml
-    # Convertir gramos a kilogramos
-    peso_levadura_kg = peso_levadura_g / 1000
-    return peso_levadura_kg
+# Personalización de los estilos CSS
+st.markdown(
+    """
+    <style>
+        body {
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            font-family: 'Arial', sans-serif;
+        }
+        .css-1y4h6k4 {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .css-1a4ffcx {
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 8px;
+        }
+        h1 {
+            color: #ffcc00;
+        }
+        .stButton>button {
+            background-color: #ff6600;
+            color: white;
+            border-radius: 8px;
+        }
+        .stTextInput>div>input {
+            background-color: #2c3e50;
+            color: white;
+            border-radius: 4px;
+        }
+        .stSelectbox>div>div>input {
+            background-color: #2c3e50;
+            color: white;
+            border-radius: 4px;
+        }
+    </style>
+    """, unsafe_allow_html=True)
 
-# Título de la aplicación
+# Título de la aplicación con estilo
 st.title("Cálculo de Levadura para Inoculación de Lote de Cerveza")
+
+# Estilo dinámico con fondo y botones personalizados
+st.subheader("Calcula el volumen y peso de levadura necesario para tu cerveza")
 
 # Selección de estilo de cerveza
 estilo = st.selectbox("Selecciona el estilo de cerveza:", ["Golden Ale", "Blonde Ale Maracuyá", "Trigo", 
@@ -31,7 +56,7 @@ estilo = st.selectbox("Selecciona el estilo de cerveza:", ["Golden Ale", "Blonde
                                                          "Barley Wine", "Catharina Sour", "Cold IPA", 
                                                          "Imperial IPA", "Gose", "Imperial Stout"])
 
-# Densidad de la cerveza en grados Plato para cada estilo
+# Densidades para los estilos
 densidades = {
     "Golden Ale": 1046,
     "Blonde Ale Maracuyá": 1046,
