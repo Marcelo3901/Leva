@@ -83,7 +83,7 @@ if conteo_neubauer > 0:
         st.success(
             f"""
             🏷️ **Estilo:** {estilo}\n
-            📏 **Densidad:** {grados_plato} 
+            📏 **Densidad:** {grados_plato}\n
             🔬 **Pitch Rate:** {pitch_rate_selected} M células/mL °P\n
             💧 **Volumen necesario:** `{volumen_levadura:.4f} L`\n
             ⚖️ **Peso estimado:** `{peso_levadura:.4f} kg`
