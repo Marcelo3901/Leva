@@ -66,7 +66,7 @@ grados_plato = densidades[estilo]
 pitch_rate_selected = pitch_rates["Lager > 1060"] if grados_plato > 1060 else pitch_rates["Ale"]
 
 # Entrada de datos
-conteo_neubauer = st.number_input("🧫 Conteo de células (M Células/mL):", min_value=0.0, step=0.1)
+conteo_neubauer = st.number_input("🧫 Conteo de células (M Células/mL 1e6):", min_value=0.0, step=0.1)
 volumen_lote = st.number_input("📦 Volumen del lote (L):", min_value=1.0, step=0.1)
 peso_200ml = st.number_input("⚖️ Peso de 200mL de levadura (g):", min_value=0.0, step=0.1)
 
