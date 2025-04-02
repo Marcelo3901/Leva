@@ -78,7 +78,7 @@ else:
     st.warning("No se encontró la imagen de fondo. Por favor, asegúrate de que el archivo 'background.jpg' esté en la carpeta correcta.")
 
 # Título de la aplicación con estilo
-st.title("Cálculo de Levadura para Inoculación de Lote de Cerveza")
+st.title("Cálculo de Levadura para Inoculación de Lote de Cerveza CASTIZA")
 
 # Estilo dinámico con fondo y botones personalizados
 st.subheader("Calcula el volumen y peso de levadura necesario para tu cerveza")
