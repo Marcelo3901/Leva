@@ -113,7 +113,7 @@ densidades = {
 pitch_rates = {
     "Ale": 0.75, 
     "Lager": 1.5, 
-    "Lager > 1060": 2.0
+    "Lager > 1058": 2.0
 }
 
 # Ingreso del conteo de células en la cámara de Neubauer (en millones de células/mL)
@@ -135,8 +135,8 @@ else:
 grados_plato = densidades[estilo]
 
 # Determinación del pitch rate según el tipo de cerveza
-if grados_plato > 1060:
-    pitch_rate_selected = pitch_rates["Lager > 1060"]
+if grados_plato > 1058:
+    pitch_rate_selected = pitch_rates["Lager > 1058"]
 else:
     pitch_rate_selected = pitch_rates["Ale"]
 
