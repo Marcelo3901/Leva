@@ -156,7 +156,7 @@ else:
     # Mostrar los resultados
     if volumen_levadura > 0:
         st.write(f"Estilo de cerveza seleccionado: {estilo}")
-        st.write(f"Grados Plato de la cerveza: {grados_plato}")
+        st.write(f"Densidad de la cerveza: {grados_plato}")
         st.write(f"Pitch Rate seleccionado: {pitch_rate_selected} millones de células/mL °P")
         st.write(f"Volumen de levadura necesario: {volumen_levadura:.4f} L")
         st.write(f"Peso estimado de levadura necesario: {peso_levadura:.4f} kg")
