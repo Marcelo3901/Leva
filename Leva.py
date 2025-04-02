@@ -4,27 +4,47 @@ import streamlit as st
 
 # Función para calcular el volumen de levadura necesario
 def calcular_volumen_levadura(conteo_neubauer, pitch_rate, volumen_lote):
+    """
+    Calcula el volumen de levadura necesario en litros, basado en el conteo de células, el pitch rate y el volumen del lote.
+    """
+    # Verifica si los valores no son cero o nulos
     if conteo_neubauer <= 0 or pitch_rate <= 0 or volumen_lote <= 0:
-        st.error("⚠️ Los valores de conteo de células, pitch rate o volumen de lote no pueden ser cero o negativos.")
+        st.error("Los valores de conteo de células, pitch rate o volumen de lote no pueden ser cero o negativos.")
         return None
+    
+    # Calcula billones de células (pitch_rate * volumen_lote)
     billones_celulas = pitch_rate * volumen_lote
-    volumen_levadura = billones_celulas / (conteo_neubauer * 1e6)  # Conversión adecuada
+
+    # Calcula el volumen de levadura necesario (en litros)
+    volumen_levadura = billones_celulas / conteo_neubauer  # Volumen necesario en litros
     return volumen_levadura
 
 # Función para calcular el peso de levadura necesario
 def calcular_peso_levadura(volumen_levadura, densidad):
+    """
+    Calcula el peso de levadura necesario en kilogramos, dado el volumen y la densidad de la levadura.
+    """
     if volumen_levadura <= 0 or densidad <= 0:
-        return 0
-    peso_levadura = volumen_levadura * 1000 * densidad
+        return 0  # Si el volumen o densidad son inválidos, retorna 0
+    
+    # El peso se calcula multiplicando el volumen por la densidad (en g/ml) y luego convirtiendo a kilogramos
+    peso_levadura = volumen_levadura * 1000 * densidad  # 1 L = 1000 mL
     return peso_levadura / 1000  # Convertir gramos a kilogramos
 
-# Configuración de fondo
+# Verifica si el archivo de imagen existe
 if os.path.exists("background.jpg"):
     with open("background.jpg", "rb") as img:
-        encoded = base64.b64encode(img.read()).decode()
+        encoded = base64.b64encode(img.read()).decode()  # Codificación de la imagen en base64
+
+    # Establecer los estilos y la imagen de fondo
     st.markdown(
         f"""
         <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+        html, body, [class*="st"] {{
+            font-family: 'Roboto', sans-serif;
+            color: #fff3aa;
+        }}
         .stApp {{
             background-image: url('data:image/jpeg;base64,{encoded}');
             background-size: cover;
@@ -32,64 +52,113 @@ if os.path.exists("background.jpg"):
             background-repeat: no-repeat;
             background-attachment: fixed;
         }}
+        .stTextInput > div > div > input,
+        .stSelectbox > div > div,
+        .stTextArea > div > textarea {{
+            background-color: #ffffff10 !important;
+            color: #fff3aa !important;
+            border-radius: 10px;
+        }}
+        .stButton > button {{
+            background-color: #55dcad !important;
+            color: #fff3aa !important;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+        }}
+        .stDataFrame, .stTable {{
+            background-color: rgba(0,0,0,0.6);
+            border-radius: 10px;
+        }}
         </style>
         """,
         unsafe_allow_html=True
     )
 else:
-    st.warning("⚠️ No se encontró la imagen de fondo. Asegúrate de que 'background.jpg' esté en la carpeta correcta.")
+    st.warning("No se encontró la imagen de fondo. Por favor, asegúrate de que el archivo 'background.jpg' esté en la carpeta correcta.")
 
-# Título principal
-st.title("🍺 Cálculo de Levadura para Inoculación de Lote")
-st.subheader("📌 Calcula el volumen y peso de levadura necesario para tu cerveza")
+# Título de la aplicación con estilo
+st.title("Cálculo de Levadura para Inoculación de Lote de Cerveza CASTIZA")
+
+# Estilo dinámico con fondo y botones personalizados
+st.subheader("Calcula el volumen y peso de levadura necesario para tu cerveza")
 
 # Selección de estilo de cerveza
-estilo = st.selectbox("🎨 Selecciona el estilo de cerveza:", [
-    "Golden Ale 1046", "Blonde Ale Maracuyá 1046", "Trigo 1049", "Vienna Lager 1049",
-    "Session IPA 1045", "Amber Ale 1050", "Brown Ale Café 1055", "Sweet Stout 1057",
-    "IPA 1059", "Barley Wine 1108", "Catharina Sour 1045", "Cold IPA 1054",
-    "Imperial IPA 1094", "Gose 1045", "Imperial Stout 1123"
-])
+estilo = st.selectbox("Selecciona el estilo de cerveza:", ["Golden Ale 1046", "Blonde Ale Maracuyá 1046", "Trigo 1049", 
+                                                         "Vienna Lager 1049", "Session IPA 1045", "Amber Ale 1050", 
+                                                         "Brown Ale Café 1055", "Sweet Stout 1057", "IPA 1059", 
+                                                         "Barley Wine 1108", "Catharina Sour 1045", "Cold IPA 1054", 
+                                                         "Imperial IPA 1094", "Gose 1045", "Imperial Stout 1123"])
 
-# Densidades
-pitch_rates = {"Ale": 0.75, "Lager": 1.5, "Lager > 1060": 2.0}
-
+# Densidades para los estilos
 densidades = {
-    "Golden Ale 1046": 1046, "Blonde Ale Maracuyá 1046": 1046, "Trigo 1049": 1049,
-    "Vienna Lager 1049": 1049, "Session IPA 1045": 1045, "Amber Ale 1050": 1050,
-    "Brown Ale Café 1055": 1055, "Sweet Stout 1057": 1057, "IPA 1059": 1059,
-    "Barley Wine 1108": 1108, "Catharina Sour 1045": 1045, "Cold IPA 1054": 1054,
-    "Imperial IPA 1094": 1094, "Gose 1045": 1045, "Imperial Stout 1123": 1123
+    "Golden Ale 1046": 1046,
+    "Blonde Ale Maracuyá 1046": 1046,
+    "Trigo 1049": 1049,
+    "Vienna Lager 1049": 1049,
+    "Session IPA 1045": 1045,
+    "Amber Ale 1050": 1050,
+    "Brown Ale Café 1055": 1055,
+    "Sweet Stout 1057": 1057,
+    "IPA 1059": 1059,
+    "Barley Wine 1108": 1108,
+    "Catharina Sour 1045": 1045,
+    "Cold IPA 1054": 1054,
+    "Imperial IPA 1094": 1094,
+    "Gose 1045": 1045,
+    "Imperial Stout 1123": 1123
 }
 
-grados_plato = densidades[estilo]
-pitch_rate_selected = pitch_rates["Lager > 1060"] if grados_plato > 1060 else pitch_rates["Ale"]
+# Pitch rates
+pitch_rates = {
+    "Ale": 0.75, 
+    "Lager": 1.5, 
+    "Lager > 1060": 2.0
+}
 
-# Entrada de datos
-conteo_neubauer = st.number_input("🧫 Conteo de células (M Células/mL 1e6):", min_value=0.0, step=0.1)
-volumen_lote = st.number_input("📦 Volumen del lote (L):", min_value=1.0, step=0.1)
-peso_200ml = st.number_input("⚖️ Peso de 200mL de levadura (g):", min_value=0.0, step=0.1)
+# Ingreso del conteo de células en la cámara de Neubauer (en millones de células/mL)
+conteo_neubauer = st.number_input("Ingresa el conteo de células en la cámara de Neubauer (en M Células/mL 1e6):", min_value=0.0, step=0.1)
 
-densidad = peso_200ml / 200 if peso_200ml > 0 else 0
+# Ingreso del volumen de lote de cerveza (en litros)
+volumen_lote = st.number_input("Ingresa el volumen de lote (en litros):", min_value=1.0, step=0.1)
 
-if conteo_neubauer > 0:
-    volumen_levadura = calcular_volumen_levadura(conteo_neubauer, pitch_rate_selected, volumen_lote)
-    peso_levadura = calcular_peso_levadura(volumen_levadura, densidad) if densidad > 0 else 0
-    
-    if volumen_levadura > 0:
-        st.markdown("""
-        ### 📊 **Resultados del cálculo**
-        """)
-        st.success(
-            f"""
-            🏷️ **Estilo:** {estilo}\n
-            📏 **Densidad:** {grados_plato}\n
-            🔬 **Pitch Rate:** {pitch_rate_selected} M células/mL °P\n
-            💧 **Volumen necesario:** `{volumen_levadura:.4f} L`\n
-            ⚖️ **Peso estimado:** `{peso_levadura:.4f} kg`
-            """
-        )
-    else:
-        st.warning("⚠️ Ingresa valores válidos para realizar el cálculo correctamente.")
+# Densidad experimental a través del peso de 200 mL de muestra
+peso_200ml = st.number_input("Pesa 200 mL de muestra de levadura en gramos e ingresa el valor aquí:", min_value=0.0, step=0.1)
+
+# Cálculo de la densidad
+if peso_200ml > 0:
+    densidad = peso_200ml / 200  # Densidad en g/mL
 else:
-    st.error("🚨 Ingresa un conteo de células válido (mayor a 0).")
+    densidad = 0  # Si no se ha ingresado el peso, se muestra como 0
+
+# Estilo de cerveza seleccionado
+grados_plato = densidades[estilo]
+
+# Determinación del pitch rate según el tipo de cerveza
+if grados_plato > 1060:
+    pitch_rate_selected = pitch_rates["Lager > 1060"]
+else:
+    pitch_rate_selected = pitch_rates["Ale"]
+
+# Verificación de conteo de células antes de proceder
+if conteo_neubauer == 0:
+    st.error("El conteo de células no puede ser cero. Por favor, ingresa un valor válido.")
+else:
+    # Cálculo del volumen de levadura necesario
+    volumen_levadura = calcular_volumen_levadura(conteo_neubauer, pitch_rate_selected, volumen_lote)
+
+    # Cálculo del peso de levadura necesario
+    if densidad > 0:
+        peso_levadura = calcular_peso_levadura(volumen_levadura, densidad)
+    else:
+        peso_levadura = 0
+
+    # Mostrar los resultados
+    if volumen_levadura > 0:
+        st.write(f"Estilo de cerveza seleccionado: {estilo}")
+        st.write(f"Densidad de la cerveza: {grados_plato}")
+        st.write(f"Pitch Rate seleccionado: {pitch_rate_selected} millones de células/mL °P")
+        st.write(f"Volumen de levadura necesario: {volumen_levadura:.4f} L")
+        st.write(f"Peso estimado de levadura necesario: {peso_levadura:.4f} kg")
+    else:
+        st.warning("Por favor, asegúrate de ingresar un conteo de células válido mayor que cero.")
