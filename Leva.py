@@ -92,21 +92,21 @@ estilo = st.selectbox("Selecciona el estilo de cerveza:", ["Golden Ale 1046", "B
 
 # Densidades para los estilos
 densidades = {
-    "Golden Ale": 1046,
-    "Blonde Ale Maracuyá": 1046,
-    "Trigo": 1049,
-    "Vienna Lager": 1049,
-    "Session IPA": 1045,
-    "Amber Ale": 1050,
-    "Brown Ale Café": 1055,
-    "Sweet Stout": 1057,
-    "IPA": 1059,
-    "Barley Wine": 1108,
-    "Catharina Sour": 1045,
-    "Cold IPA": 1054,
-    "Imperial IPA": 1094,
-    "Gose": 1045,
-    "Imperial Stout": 1123
+    "Golden Ale 1046": 1046,
+    "Blonde Ale Maracuyá 1046": 1046,
+    "Trigo 1049": 1049,
+    "Vienna Lager 1049": 1049,
+    "Session IPA 1045": 1045,
+    "Amber Ale 1050": 1050,
+    "Brown Ale Café 1055": 1055,
+    "Sweet Stout 1057": 1057,
+    "IPA 1059": 1059,
+    "Barley Wine 1108": 1108,
+    "Catharina Sour 1045": 1045,
+    "Cold IPA 1054": 1054,
+    "Imperial IPA 1094": 1094,
+    "Gose 1045": 1045,
+    "Imperial Stout 1123": 1123
 }
 
 # Pitch rates
