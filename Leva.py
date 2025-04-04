@@ -1,6 +1,7 @@
 import os
 import base64
 import streamlit as st
+import pandas as pd
 import matplotlib.pyplot as plt
 
 # Función para calcular el volumen de levadura necesario
