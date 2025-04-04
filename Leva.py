@@ -112,7 +112,7 @@ densidades = {
 # Pitch rates
 pitch_rates = {"Ale": 0.75, "Lager": 1.5, "Lager > 1058": 2.0}
 
-conteo_neubauer = st.number_input("🔬 Ingresa el conteo de células (M Células/mL 1e):", min_value=0.0, step=0.1)
+conteo_neubauer = st.number_input("🔬 Ingresa el conteo de células (M Células/mL 1e6):", min_value=0.0, step=0.1)
 volumen_lote = st.number_input("🛢️🍺 Ingresa el volumen de lote (L):", min_value=1.0, step=0.1)
 peso_200ml = st.number_input("⚖️ Pesa 200 mL de muestra de levadura (g):", min_value=0.0, step=0.1)
 
