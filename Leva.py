@@ -1,6 +1,7 @@
 import os
 import base64
 import streamlit as st
+import matplotlib.pyplot as plt
 
 # Función para calcular el volumen de levadura necesario
 def calcular_volumen_levadura(conteo_neubauer, pitch_rate, volumen_lote, gravedad_especifica):
