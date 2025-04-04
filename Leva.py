@@ -128,3 +128,39 @@ if conteo_neubauer > 0:
     st.success(f"✅🧪 Peso estimado de levadura necesario: {peso_levadura:.4f} kg")
 else:
     st.error("⚠️ El conteo de células no puede ser cero.")
+
+
+####
+
+
+
+# Propagación de levadura
+pasos = [
+    ("📌 Paso 1", "Erlenmeyer 250mL", 60, 0.25),
+    ("📌 Paso 2", "Erlenmeyer 500mL", 400, 0.5),
+    ("📌 Paso 3", "Erlenmeyer 5L", 2000, 5),
+    ("📌 Paso 4", "Propagador 50L", 12000, 50),
+    ("📌 Paso 5", "Propagador 50L", 28000, 50)
+]
+
+dias = range(len(pasos))
+celulas = [conteo_neubauer]
+for _, _, volumen, _ in pasos:
+    celulas.append(celulas[-1] * 2)  # Simulación de crecimiento celular
+
+df = pd.DataFrame({"Día": dias, "Millones de Células": celulas})
+
+# Gráfico de propagación
+st.subheader("📈 Crecimiento Celular en Propagación")
+fig, ax = plt.subplots()
+ax.plot(df["Día"], df["Millones de Células"], marker='o', linestyle='-', color='orange')
+ax.set_xlabel("Días")
+ax.set_ylabel("Millones de Células")
+ax.set_title("Evolución de la Propagación")
+ax.grid()
+st.pyplot(fig)
+
+
+
+
+
