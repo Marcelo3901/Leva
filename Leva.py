@@ -80,7 +80,7 @@ else:
     st.warning("⚠️ No se encontró la imagen de fondo. Asegúrate de que 'background.jpg' esté en la carpeta correcta.")
 
 # Título de la aplicación con estilo
-st.title("🍺 Cálculo de Levadura para Inoculación de Lote de Cerveza CASTIZA")
+st.title("🧫 Cálculo de Levadura para Inoculación de Lote de Cerveza CASTIZA")
 st.subheader("📊 Calcula el volumen y peso de levadura necesario para tu cerveza")
 
 # Selección de estilo de cerveza
@@ -112,8 +112,8 @@ densidades = {
 # Pitch rates
 pitch_rates = {"Ale": 0.75, "Lager": 1.5, "Lager > 1058": 2.0}
 
-conteo_neubauer = st.number_input("🔬 Ingresa el conteo de células (M Células/mL):", min_value=0.0, step=0.1)
-volumen_lote = st.number_input("🛢️ Ingresa el volumen de lote (L):", min_value=1.0, step=0.1)
+conteo_neubauer = st.number_input("🔬 Ingresa el conteo de células (M Células/mL 1e):", min_value=0.0, step=0.1)
+volumen_lote = st.number_input("🛢️🍺 Ingresa el volumen de lote (L):", min_value=1.0, step=0.1)
 peso_200ml = st.number_input("⚖️ Pesa 200 mL de muestra de levadura (g):", min_value=0.0, step=0.1)
 
 densidad = peso_200ml / 200 if peso_200ml > 0 else 0
@@ -124,7 +124,7 @@ if conteo_neubauer > 0:
     volumen_levadura = calcular_volumen_levadura(conteo_neubauer, pitch_rate_selected, volumen_lote, gravedad_especifica)
     peso_levadura = calcular_peso_levadura(volumen_levadura, densidad) if densidad > 0 else 0
     
-    st.success(f"✅ Volumen de levadura necesario: {volumen_levadura:.4f} L")
-    st.success(f"✅ Peso estimado de levadura necesario: {peso_levadura:.4f} kg")
+    st.success(f"✅🧪 Volumen de levadura necesario: {volumen_levadura:.4f} L")
+    st.success(f"✅🧪 Peso estimado de levadura necesario: {peso_levadura:.4f} kg")
 else:
     st.error("⚠️ El conteo de células no puede ser cero.")
