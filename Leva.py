@@ -204,11 +204,11 @@ else:
 
 # Propagación de levadura
 pasos = [
-    ("📌 Paso 1", "Erlenmeyer 250mL", 60, 0.25),
-    ("📌 Paso 2", "Erlenmeyer 500mL", 400, 0.5),
-    ("📌 Paso 3", "Erlenmeyer 5L", 2000, 5),
-    ("📌 Paso 4", "Propagador 50L", 12000, 50),
-    ("📌 Paso 5", "Propagador 50L", 28000, 50)
+    ("📌 Paso 1", "Erlenmeyer 250mL (60mL mosto)", 60, 0.25),
+    ("📌 Paso 2", "Erlenmeyer 500mL (400mL mosto)", 400, 0.5),
+    ("📌 Paso 3", "Erlenmeyer 5L (2L mosto)", 2000, 5),
+    ("📌 Paso 4", "Propagador 50L (12L mosto)", 12000, 50),
+    ("📌 Paso 5", "Propagador 50L (40L mosto)", 28000, 50)
 ]
 
 dias = []
